@@ -1,0 +1,24 @@
+﻿@model to_do_app.Models.Subtask;
+
+
+<h1>Add subtask to task</h1>
+
+<br />
+<a asp-controller="Task" asp-action="Index" class="btn btn-primary btn-lg">Back</a>
+<br />
+
+<form asp-controller="Task" asp-action="AddSubtask" method="Post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"> </div>
+
+    <div class="form-group">
+        <div>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <label asp-for="Description">Desciption: </label>
+        <input asp-for="Description" type="text" class="form-control" />
+        <input asp-for="TaskId" type="text" class="form-control" value=@ViewBag.Id hidden />
+    </div>
+    <br />
+
+    <button type="submit" class="btn btn-primary btn-lg">Add</button>
+</form>

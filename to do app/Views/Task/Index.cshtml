@@ -1,0 +1,144 @@
+﻿@model Dictionary<int, to_do_app.Models.Task>
+
+<h1 class="text-center">To-Do List</h1>
+
+<br />
+
+<p class="text-center">
+    <a asp-controller="Task" asp-action="Add" class="btn btn-primary btn-lg">Add task</a>
+</p>
+
+<br />
+
+<div class="row">
+    <div class="col-sm-6" class="border-right">
+        <h4>To do:</h4>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Task</th>
+                    <th>Days remaining</th>
+                    <th>Action</th>
+                </tr>
+                @foreach (var task in Model.Values)
+                {
+                    if (task.Status == "todo")
+                    {
+                        <tr>
+                            <td>
+                                <h5><!-- <span onclick="showMore()" id="showmore">&#9655;</span> -->@task.Description</h5>
+                            </td>
+                            <td>
+                                @{
+                                    int days = (task.Deadline - DateTime.Now).Days;
+                                }
+                                @if (days >= 10)
+                                {
+                                    <h5 class="green">@days</h5>
+                                }
+                                else if (days >= 5)
+                                {
+                                    <h5 class="orange">@days</h5>
+                                }
+                                else
+                                {
+                                    <h5 class="red">@days</h5>
+                                }
+                            </td>
+                            <td>
+                                <a asp-controller="Task" asp-action="Done" asp-route-id="@task.Id" class="btn btn-outline-success">Done</a>
+                                <a asp-controller="Task" asp-action="Delete" asp-route-id="@task.Id" class="btn btn-outline-danger">Delete</a>
+                                <a asp-controller="Task" asp-action="AddSubtask" asp-route-id="@task.Id" class="btn btn-outline-secondary">Add subtask</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" id="nodecoration">
+                                <!-- <span id="more" style="display: none;"> -->
+                                <table id="tablemargin">
+                                    <tbody>
+                                        @if (task.Subtasks.Count() == 0)
+                                        {
+                                            <tr>
+                                                <td id="nodecoration">
+                                                    <p>No subtasks</p>
+                                                </td>
+                                            </tr>
+                                        }
+                                        else
+                                        {
+                                            @foreach (var subtask in task.Subtasks)
+                                            {
+                                                <tr>
+                                                    <td id="nodecoration" class="subtask">
+                                                        <p>@subtask.Description</p>
+                                                    </td>
+                                                    <td id="nodecoration">
+                                                        @if (subtask.Status == "todo")
+                                                        {
+                                                            <a asp-controller="Task" asp-action="DoneSubtask" asp-route-id="@subtask.Id" class="btn btn-outline-success btn-sm">Done</a>
+                                                        }
+                                                        else if (subtask.Status == "done")
+                                                        {
+                                                            <p><span>&#10003;</span></p>
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                                <!-- </span> -->
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!--
+    <script>
+        function showMore() {
+            var more = document.getElementById("more");
+            var btn = document.getElementById("showmore");
+
+            if (more.style.display == "none") {
+                btn.innerHTML = "&#9661;";
+                more.style.display = "inline";
+            }
+            else {
+                btn.innerHTML = "&#9655;";
+                more.style.display = "none";
+            }
+        }
+    </script>
+    -->
+
+    <div class="col-sm-6" class="border-left">
+        <h4>Done:</h4>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Task</th>
+                    <th>Status</th>
+                </tr>
+                @foreach (var element in Model.Values)
+                {
+                    if (element.Status == "done")
+                    {
+                        <tr>
+                            <td>
+                                <h5>@element.Description</h5>
+                            </td>
+                            <td>
+                                <h5><span>&#10003;</span></h5>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<br />

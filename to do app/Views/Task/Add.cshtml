@@ -1,0 +1,44 @@
+﻿@model to_do_app.Models.Task;
+
+
+<h1>Add task to do</h1>
+
+<br />
+<a asp-controller="Task" asp-action="Index" class="btn btn-primary btn-lg">Back</a>
+<br />
+
+<form asp-controller="Task" asp-action="Add" method="Post">
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"> </div>
+
+    <div class="form-group">
+        <div>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <label asp-for="Description">Desciption: </label>
+        <input asp-for="Description" type="text" class="form-control" />
+
+        <div>
+            <span asp-validation-for="Deadline" class="text-danger"></span>
+        </div>
+        <label asp-for="Deadline">Deadline: </label>
+        <input asp-for="Deadline" type="date" class="form-control" min="2023-01-01" id="deadline" />
+        <script>
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1;
+            var yyyy = today.getFullYear();
+
+            if (dd < 10) dd = '0' + dd;
+
+            if (mm < 10) mm = '0' + mm;
+
+            today = yyyy + '-' + mm + '-' + dd;
+            document.getElementById("deadline").setAttribute("min", today);
+        </script>
+    </div>
+
+    <br />
+
+    <button type="submit" class="btn btn-primary btn-lg">Add</button>
+</form>
