@@ -75,13 +75,13 @@ namespace to_do_app.Controllers
             }
         }
 
-        public IActionResult DoneSubtask([FromRoute] int subtask_id)
+        public IActionResult DoneSubtask([FromRoute] int id)
         {
             foreach (var task in tasks.Values)
             {
                 foreach (var st in task.Subtasks)
                 {
-                    if (st.Id == subtask_id)
+                    if (st.Id == id)
                     {
                         st.Status = "done";
                     }
