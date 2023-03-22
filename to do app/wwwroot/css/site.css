@@ -37,15 +37,19 @@ body {
     margin-left: 10%;
 }
 
-#more {
+.more {
     display: none;
 }
 
-#showmore:hover {
+.showmore:hover {
     cursor: pointer;
 }
 
 .subtask {
     padding-top: 10px;
     padding-right: 10px;
+}
+
+.done {
+    color:grey;
 }

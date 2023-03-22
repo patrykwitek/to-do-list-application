@@ -26,7 +26,10 @@
                     {
                         <tr>
                             <td>
-                                <h5><!-- <span onclick="showMore()" id="showmore">&#9655;</span> -->@task.Description</h5>
+                                @{
+                                    string idshowmore = "showmore" + task.Id;
+                                }
+                                <h5><span onclick="showMore(@task.Id)" class="showmore" id=@idshowmore>&#9655;</span> @task.Description</h5>
                             </td>
                             <td>
                                 @{
@@ -53,41 +56,41 @@
                         </tr>
                         <tr>
                             <td colspan="3" id="nodecoration">
-                                <!-- <span id="more" style="display: none;"> -->
-                                <table id="tablemargin">
-                                    <tbody>
-                                        @if (task.Subtasks.Count() == 0)
-                                        {
-                                            <tr>
-                                                <td id="nodecoration">
-                                                    <p>No subtasks</p>
-                                                </td>
-                                            </tr>
-                                        }
-                                        else
-                                        {
-                                            @foreach (var subtask in task.Subtasks)
+                                <span class="more" id=@task.Id style="display: none;">
+                                    <table id="tablemargin">
+                                        <tbody>
+                                            @if (task.Subtasks.Count() == 0)
                                             {
                                                 <tr>
-                                                    <td id="nodecoration" class="subtask">
-                                                        <p>@subtask.Description</p>
-                                                    </td>
                                                     <td id="nodecoration">
-                                                        @if (subtask.Status == "todo")
-                                                        {
-                                                            <a asp-controller="Task" asp-action="DoneSubtask" asp-route-id="@subtask.Id" class="btn btn-outline-success btn-sm">Done</a>
-                                                        }
-                                                        else if (subtask.Status == "done")
-                                                        {
-                                                            <p><span>&#10003;</span></p>
-                                                        }
+                                                        <p>No subtasks</p>
                                                     </td>
                                                 </tr>
                                             }
-                                        }
-                                    </tbody>
-                                </table>
-                                <!-- </span> -->
+                                            else
+                                            {
+                                                @foreach (var subtask in task.Subtasks)
+                                                {
+                                                    <tr>
+                                                        <td id="nodecoration" class="subtask">
+                                                            <p>@subtask.Description</p>
+                                                        </td>
+                                                        <td id="nodecoration">
+                                                            @if (subtask.Status == "todo")
+                                                            {
+                                                                <a asp-controller="Task" asp-action="DoneSubtask" asp-route-id="@subtask.Id" class="btn btn-outline-success btn-sm">Done</a>
+                                                            }
+                                                            else if (subtask.Status == "done")
+                                                            {
+                                                                <p><span>&#10003;</span></p>
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </span>
                             </td>
                         </tr>
                     }
@@ -96,23 +99,23 @@
         </table>
     </div>
 
-    <!--
     <script>
-        function showMore() {
-            var more = document.getElementById("more");
-            var btn = document.getElementById("showmore");
+        function showMore(id) {
+            var more = document.getElementById(id);
+            var btn = document.getElementById("showmore"+id);
 
-            if (more.style.display == "none") {
-                btn.innerHTML = "&#9661;";
+            if (more.style.display == "none") 
+            {
                 more.style.display = "inline";
+                btn.innerHTML = "&#9661;";
             }
-            else {
-                btn.innerHTML = "&#9655;";
+            else 
+            {
                 more.style.display = "none";
+                btn.innerHTML = "&#9655;";
             }
         }
     </script>
-    -->
 
     <div class="col-sm-6" class="border-left">
         <h4>Done:</h4>
@@ -126,7 +129,7 @@
                 {
                     if (element.Status == "done")
                     {
-                        <tr>
+                        <tr class="done">
                             <td>
                                 <h5>@element.Description</h5>
                             </td>
